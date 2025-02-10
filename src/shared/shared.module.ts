@@ -7,7 +7,6 @@ import {
   OPEN_API_VERSION,
 } from './configs/open-api.configs';
 import { organizationsMock } from './mocks/organizations/mocks';
-import { organizationsMethodsMock } from './mocks/organizations/methods.mocks';
 import { userRoles } from './constants/user.roles';
 
 @Global()
@@ -33,12 +32,6 @@ import { userRoles } from './constants/user.roles';
       provide: 'MOCKS_OBJECTS',
       useValue: {
         organizationsMock,
-      },
-    },
-    {
-      provide: 'MOCKS_METHODS',
-      useValue: {
-        organizationsMethodsMock,
       },
     },
     {

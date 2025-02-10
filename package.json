@@ -1,6 +1,6 @@
 {
   "name": "trello-like-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A NestJS API for a Trello-like application built with TypeScript, Prisma, and Swagger. It connects to a PostgreSQL database running in a Docker container.",
   "author": "Ruben O. Alvarado",
   "private": true,
@@ -24,6 +24,7 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "11.0.3",
+    "@prisma/client": "6.3.1",
     "class-transformer": "0.5.1",
     "class-validator": "0.14.1",
     "reflect-metadata": "^0.2.2",
