@@ -1,6 +1,6 @@
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A NestJS API for a Trello-like application built with TypeScript, Prisma, and Swagger. It connects to a PostgreSQL database running in a Docker container.
 
 ## Project setup
 
