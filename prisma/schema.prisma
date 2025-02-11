@@ -17,6 +17,7 @@ model Organization {
   id        Int      @id @default(autoincrement())
   name      String
   createdAt DateTime @default(now()) @map("created_at")
+  projects  Projects[]
   userOrganizations UserOrganization[]
 
   @@map("Organizations")
@@ -40,4 +41,14 @@ model UserOrganization {
   organization   Organization @relation(fields: [organizationId], references: [id])
 
   @@map("UserOrganizations")
+}
+
+model Projects {
+  id             Int      @id @default(autoincrement())
+  name           String
+  organizationId Int      @map("organization_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("Projects")
 }
