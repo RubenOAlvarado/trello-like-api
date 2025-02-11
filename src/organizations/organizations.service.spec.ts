@@ -15,7 +15,7 @@ describe('OrganizationsService', () => {
         {
           provide: PrismaService,
           useValue: {
-            organization: organizationsMethodsMock,
+            organizations: organizationsMethodsMock,
           },
         },
       ],
