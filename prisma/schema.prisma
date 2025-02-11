@@ -17,4 +17,27 @@ model Organization {
   id        Int      @id @default(autoincrement())
   name      String
   createdAt DateTime @default(now()) @map("created_at")
+  userOrganizations UserOrganization[]
+
+  @@map("Organizations")
+}
+
+model Users {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  userOrganizations UserOrganization[]
+
+  @@map("Users")
+}
+
+model UserOrganization {
+  id             Int      @id @default(autoincrement())
+  userId         Int      @map("user_id")
+  organizationId Int      @map("organization_id")
+  role           String
+  user           Users @relation(fields: [userId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("UserOrganizations")
 }

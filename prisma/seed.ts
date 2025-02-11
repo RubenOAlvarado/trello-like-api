@@ -4,9 +4,11 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.organization.deleteMany({});
+  await prisma.userOrganization.deleteMany();
+  await prisma.users.deleteMany();
+  await prisma.organization.deleteMany();
 
-  await Promise.all([
+  const organizations = await Promise.all([
     prisma.organization.create({
       data: {
         name: 'Tech Innovators Inc.',
@@ -26,10 +28,94 @@ async function main() {
       },
     }),
   ]);
+
+  const users = await Promise.all([
+    prisma.users.create({
+      data: {
+        email: 'john.doe@example.com',
+        createdAt: new Date('2024-01-10'),
+      },
+    }),
+    prisma.users.create({
+      data: {
+        email: 'jane.smith@example.com',
+        createdAt: new Date('2024-01-12'),
+      },
+    }),
+    prisma.users.create({
+      data: {
+        email: 'bob.wilson@example.com',
+        createdAt: new Date('2024-01-25'),
+      },
+    }),
+    prisma.users.create({
+      data: {
+        email: 'sarah.johnson@example.com',
+        createdAt: new Date('2024-02-05'),
+      },
+    }),
+  ]);
+
+  await Promise.all([
+    prisma.userOrganization.create({
+      data: {
+        userId: users[0].id,
+        organizationId: organizations[0].id,
+        role: 'ADMIN',
+      },
+    }),
+    prisma.userOrganization.create({
+      data: {
+        userId: users[0].id,
+        organizationId: organizations[1].id,
+        role: 'MEMBER',
+      },
+    }),
+    prisma.userOrganization.create({
+      data: {
+        userId: users[1].id,
+        organizationId: organizations[1].id,
+        role: 'ADMIN',
+      },
+    }),
+    prisma.userOrganization.create({
+      data: {
+        userId: users[2].id,
+        organizationId: organizations[0].id,
+        role: 'MEMBER',
+      },
+    }),
+    prisma.userOrganization.create({
+      data: {
+        userId: users[2].id,
+        organizationId: organizations[1].id,
+        role: 'MEMBER',
+      },
+    }),
+    prisma.userOrganization.create({
+      data: {
+        userId: users[2].id,
+        organizationId: organizations[2].id,
+        role: 'MEMBER',
+      },
+    }),
+    prisma.userOrganization.create({
+      data: {
+        userId: users[3].id,
+        organizationId: organizations[2].id,
+        role: 'ADMIN',
+      },
+    }),
+  ]);
+
+  console.log('Seed data created successfully!');
 }
 
 main()
-  .catch(console.error)
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
   .finally(async () => {
     await prisma.$disconnect();
   });
