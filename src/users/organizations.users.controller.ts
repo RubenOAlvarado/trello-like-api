@@ -14,7 +14,7 @@ import { ResponseUserDto } from './dto/response-user.dt';
 
 @ApiTags('Users')
 @Controller('organizations/:id/users')
-export class UsersOrganizationsController {
+export class OrganizationsUsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'Create a user for an organization' })

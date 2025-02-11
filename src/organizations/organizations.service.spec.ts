@@ -30,7 +30,7 @@ describe('OrganizationsService', () => {
   });
 
   it('should create a new organization', async () => {
-    const spyCreate = jest.spyOn(prismaService.organization, 'create');
+    const spyCreate = jest.spyOn(prismaService.organizations, 'create');
     const organization = await service.create({ name: 'Organization 1' });
     expect(spyCreate).toHaveBeenCalled();
     expect(organization).toEqual(organizationsMock[0]);
@@ -40,14 +40,14 @@ describe('OrganizationsService', () => {
   });
 
   it('should find all organizations', async () => {
-    const spyFindMany = jest.spyOn(prismaService.organization, 'findMany');
+    const spyFindMany = jest.spyOn(prismaService.organizations, 'findMany');
     const organizations = await service.findAll();
     expect(spyFindMany).toHaveBeenCalled();
     expect(organizations).toEqual(organizationsMock);
   });
 
   it('should find one organization', async () => {
-    const spyFindUnique = jest.spyOn(prismaService.organization, 'findUnique');
+    const spyFindUnique = jest.spyOn(prismaService.organizations, 'findUnique');
     const organization = await service.findOne(1);
     expect(spyFindUnique).toHaveBeenCalled();
     expect(organization).toEqual(organizationsMock[0]);
@@ -56,7 +56,7 @@ describe('OrganizationsService', () => {
 
   it('should update an organization', async () => {
     const spyFindOne = jest.spyOn(service, 'findOne');
-    const spyUpdate = jest.spyOn(prismaService.organization, 'update');
+    const spyUpdate = jest.spyOn(prismaService.organizations, 'update');
     const organization = await service.update(2, { name: 'Organization 2' });
     expect(spyFindOne).toHaveBeenCalled();
     expect(spyUpdate).toHaveBeenCalled();
@@ -69,7 +69,7 @@ describe('OrganizationsService', () => {
 
   it('should remove an organization', async () => {
     const spyFindOne = jest.spyOn(service, 'findOne');
-    const spyDelete = jest.spyOn(prismaService.organization, 'delete');
+    const spyDelete = jest.spyOn(prismaService.organizations, 'delete');
     const organization = await service.remove(3);
     expect(spyFindOne).toHaveBeenCalled();
     expect(spyDelete).toHaveBeenCalled();

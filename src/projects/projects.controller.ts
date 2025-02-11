@@ -16,7 +16,7 @@ import { ResponseProjectDto } from './dto/response-project.dto';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
-  @ApiOperation({ summary: 'Get all projects' })
+  @ApiOperation({ summary: 'Get project by ID' })
   @ApiOkResponse({
     description: 'The projects have been successfully retrieved.',
     type: ResponseProjectDto,

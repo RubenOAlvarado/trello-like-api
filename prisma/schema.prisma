@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Organization {
+model Organizations {
   id        Int      @id @default(autoincrement())
   name      String
   createdAt DateTime @default(now()) @map("created_at")
@@ -27,9 +27,43 @@ model Users {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   createdAt DateTime @default(now()) @map("created_at")
+  tasks     Tasks[]   @relation("CreatedTasks")
   userOrganizations UserOrganization[]
+  taskAssignments TaskAssignment[]
 
   @@map("Users")
+}
+
+model Projects {
+  id             Int      @id @default(autoincrement())
+  name           String
+  organizationId Int      @map("organization_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+  tasks          Tasks[]
+  organization   Organizations @relation(fields: [organizationId], references: [id])
+
+  @@map("Projects")
+  @@index([organizationId], name: "idx_tasks_project")
+}
+
+model Tasks {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  statusId    Int      @map("status_id")
+  projectId   Int      @map("project_id")
+  createdById Int      @map("created_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("update_at")
+  isDeleted   Boolean  @default(false) @map("is_deleted")
+  status      TaskStatus @relation(fields: [statusId], references: [id])
+  project     Projects @relation(fields: [projectId], references: [id])
+  createdBy   Users @relation("CreatedTasks", fields: [createdById], references: [id])
+  taskAssignments TaskAssignment[]
+
+  @@map("Tasks")
+  @@index([projectId], name: "idx_tasks_projects")
+  @@index([statusId], name: "idx_tasks_status")
 }
 
 model UserOrganization {
@@ -38,17 +72,28 @@ model UserOrganization {
   organizationId Int      @map("organization_id")
   role           String
   user           Users @relation(fields: [userId], references: [id])
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organizations @relation(fields: [organizationId], references: [id])
 
   @@map("UserOrganizations")
 }
 
-model Projects {
-  id             Int      @id @default(autoincrement())
-  name           String
-  organizationId Int      @map("organization_id")
-  createdAt      DateTime @default(now()) @map("created_at")
-  organization   Organization @relation(fields: [organizationId], references: [id])
+model TaskAssignment {
+  id           Int      @id @default(autoincrement())
+  taskId       Int      @map("task_id")
+  userId       Int      @map("user_id")
+  assignedAt   DateTime @default(now()) @map("assigned_at")
+  unassignedAt DateTime? @map("unassigned_at")
+  task         Tasks @relation(fields: [taskId], references: [id])
+  user         Users @relation(fields: [userId], references: [id])
 
-  @@map("Projects")
+  @@map("TaskAssignments")
+  @@index([userId], name: "idx_task_assignments_user")
+}
+
+model TaskStatus {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  tasks Tasks[]
+
+  @@map("TaskStatuses")
 }

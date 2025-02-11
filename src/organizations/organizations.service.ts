@@ -7,20 +7,29 @@ import { PrismaService } from '../prisma/prisma.service';
 export class OrganizationsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createOrganizationDto: CreateOrganizationDto) {
-    return this.prismaService.organization.create({
+  async create(createOrganizationDto: CreateOrganizationDto) {
+    const newOrganization = await this.prismaService.organizations.create({
       data: createOrganizationDto,
     });
+    return newOrganization;
   }
 
-  findAll() {
-    return this.prismaService.organization.findMany();
+  async findAll() {
+    const organizations = await this.prismaService.organizations.findMany();
+    if (organizations.length === 0) {
+      throw new NotFoundException('Organizations not found.');
+    }
+    return organizations;
   }
 
-  findOne(id: number) {
-    return this.prismaService.organization.findUnique({
+  async findOne(id: number) {
+    const organization = await this.prismaService.organizations.findUnique({
       where: { id },
     });
+    if (!organization) {
+      throw new NotFoundException('Organization not found.');
+    }
+    return organization;
   }
 
   async update(id: number, updateOrganizationDto: UpdateOrganizationDto) {
@@ -28,7 +37,7 @@ export class OrganizationsService {
     if (!organization) {
       throw new NotFoundException('Organization not found.');
     }
-    return this.prismaService.organization.update({
+    return this.prismaService.organizations.update({
       where: { id: organization.id },
       data: updateOrganizationDto,
     });
@@ -39,7 +48,7 @@ export class OrganizationsService {
     if (!organization) {
       throw new NotFoundException('Organization not found.');
     }
-    return this.prismaService.organization.delete({
+    return this.prismaService.organizations.delete({
       where: { id: organization.id },
     });
   }

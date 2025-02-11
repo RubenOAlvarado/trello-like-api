@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Organization } from '@prisma/client';
+import { Organizations } from '@prisma/client';
 
-export class ResponseOrganizationDto implements Organization {
+export class ResponseOrganizationDto implements Organizations {
   @ApiProperty()
   name: string;
 

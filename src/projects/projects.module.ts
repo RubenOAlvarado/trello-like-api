@@ -9,5 +9,6 @@ import { OrganizationsProjectsController } from './organizations.projects.contro
   imports: [PrismaModule, OrganizationsModule],
   controllers: [OrganizationsProjectsController, ProjectsController],
   providers: [ProjectsService],
+  exports: [ProjectsService],
 })
 export class ProjectsModule {}

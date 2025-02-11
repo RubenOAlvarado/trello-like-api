@@ -2,8 +2,7 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { OrganizationsService } from '../organizations/organizations.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { usersMockMethods } from '../shared/mocks/users/methods.mocks';
-import { UsersController } from './users.controller';
-import { UsersOrganizationsController } from './users.organizations.controller';
+import { OrganizationsUsersController } from './organizations.users.controller';
 import { UsersService } from './users.service';
 
 const mockOrganizationsService = {
@@ -11,11 +10,11 @@ const mockOrganizationsService = {
 };
 
 describe('UsersOrganizationsController', () => {
-  let controller: UsersOrganizationsController;
+  let controller: OrganizationsUsersController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UsersController],
+      controllers: [OrganizationsUsersController],
       providers: [
         UsersService,
         {
@@ -32,7 +31,9 @@ describe('UsersOrganizationsController', () => {
       ],
     }).compile();
 
-    controller = module.get<UsersOrganizationsController>(UsersController);
+    controller = module.get<OrganizationsUsersController>(
+      OrganizationsUsersController,
+    );
   });
 
   it('should be defined', () => {

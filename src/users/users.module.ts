@@ -4,12 +4,12 @@ import { UsersController } from './users.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 import { IsEmailUniqueConstraint } from './email-unique.constraint';
 import { OrganizationsModule } from '../organizations/organizations.module';
-import { UsersOrganizationsController } from './users.organizations.controller';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { OrganizationsUsersController } from './organizations.users.controller';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   imports: [PrismaModule, OrganizationsModule],
-  controllers: [UsersOrganizationsController, UsersController],
+  controllers: [OrganizationsUsersController, UsersController],
   providers: [UsersService, IsEmailUniqueConstraint, PrismaService],
   exports: [UsersService],
 })
